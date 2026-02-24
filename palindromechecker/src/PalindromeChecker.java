@@ -1,7 +1,24 @@
+import java.util.Scanner;
 public class PalindromeChecker {
      public static void main(String[] args) {
-         System.out.println("Welcome to the Palindrome Checker Management System");
-         System.out.println("Version :1.0");
-         System.out.println("System initialized successfully");
+         Scanner sc = new Scanner(System.in);
+         System.out.println("Enter a word to check for Palindrome string or not: ");
+         String Word = "madam";
+         boolean isPalindrome = true;
+
+         for (int i = 0; i < Word.length() / 2; i++) {
+             if (Word.charAt(i) != Word.charAt(Word.length() - 1 - i)) {
+                 isPalindrome = false;
+                 break;
+             }
+         }
+
+         if (isPalindrome) {
+             System.out.println(Word + " is a palindrome");
+         } else {
+             System.out.println(Word + " is not a palindrome");
+         }
+
+
      }
 }
