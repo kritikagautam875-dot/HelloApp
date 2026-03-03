@@ -1,76 +1,35 @@
+import java.util.Stack;
+
+// Encapsulation: Class bundles data (input string) and methods.
 public class PalindromeChecker {
 
-    // Node class for the Singly Linked List
-    public static class ListNode {
-        int val;
-        ListNode next;
+    // Single Responsibility: Only responsible for checking palindromes.
+    public boolean checkPalindrome(String text) {
+        if (text == null) return false;
+        
+        // Data Structure: Using a Stack (LIFO) to reverse the string.
+        Stack<Character> stack = new Stack<>();
+        String cleanedText = text.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
 
-        ListNode(int val) {
-            this.val = val;
-        }
-    }
-    public boolean isPalindrome(ListNode head) {
-        if (head == null || head.next == null) {
-            return true;
-        }
-
-        // 1. Find the middle of the linked list
-        ListNode slow = head;
-        ListNode fast = head;
-        while (fast.next != null && fast.next.next != null) {
-            slow = slow.next;
-            fast = fast.next.next;
+        // Push characters onto stack
+        for (char c : cleanedText.toCharArray()) {
+            stack.push(c);
         }
 
-        // 2. Reverse the second half of the list
-        ListNode secondHalfHead = reverseList(slow.next);
-        ListNode firstHalfHead = head;
-
-        // 3. Compare the first and reversed second halves
-        ListNode currentSecond = secondHalfHead;
-        while (currentSecond != null) {
-            if (firstHalfHead.val != currentSecond.val) {
-                return false;
-            }
-            firstHalfHead = firstHalfHead.next;
-            currentSecond = currentSecond.next;
+        // Pop and compare
+        StringBuilder reversedText = new StringBuilder();
+        while (!stack.isEmpty()) {
+            reversedText.append(stack.pop());
         }
 
-        // Optional: Restore the original list (good practice for general use)
-        // reverseList(secondHalfHead); // Reverse back
-        // slow.next = secondHalfHead;  // Re-attach
-
-        return true;
-    }
-    private ListNode reverseList(ListNode head) {
-        ListNode prev = null;
-        ListNode curr = head;
-        while (curr != null) {
-            ListNode nextTemp = curr.next; // Save next node
-            curr.next = prev;              // Reverse pointer
-            prev = curr;                   // Move prev to current
-            curr = nextTemp;               // Move curr to next
-        }
-        return prev; // prev is the new head of the reversed list
+        return cleanedText.equals(reversedText.toString());
     }
 
-    // Example Usage (to be run in a main method or an online editor like [LeetCode](https://leetcode.com))
     public static void main(String[] args) {
-        PalindromeChecker solution = new PalindromeChecker();
-
-        // Example 1: Palindrome (1 -> 2 -> 3 -> 2 -> 1)
-        ListNode head1 = new ListNode(1);
-        head1.next = new ListNode(2);
-        head1.next.next = new ListNode(3);
-        head1.next.next.next = new ListNode(2);
-        head1.next.next.next.next = new ListNode(1);
-        System.out.println("List 1 is palindrome: " + solution.isPalindrome(head1)); // Output: true
-
-        // Example 2: Not a Palindrome (1 -> 2 -> 3 -> 4)
-        ListNode head2 = new ListNode(1);
-        head2.next = new ListNode(2);
-        head2.next.next = new ListNode(3);
-        head2.next.next.next = new ListNode(4);
-        System.out.println("List 2 is palindrome: " + solution.isPalindrome(head2)); // Output: false
+        PalindromeChecker checker = new PalindromeChecker();
+        String testString = "Racecar";
+        
+        // Exposed Method: User only interacts with this.
+        System.out.println(testString + " is palindrome? " + checker.checkPalindrome(testString));
     }
 }
