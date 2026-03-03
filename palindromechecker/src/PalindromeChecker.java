@@ -33,3 +33,4 @@ public class PalindromeChecker {
         System.out.println(testString + " is palindrome? " + checker.checkPalindrome(testString));
     }
 }
+
